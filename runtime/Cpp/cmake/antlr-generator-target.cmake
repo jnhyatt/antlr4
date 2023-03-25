@@ -3,6 +3,12 @@ macro(ANTLR_TARGET Name InputFile)
     set(ANTLR_ONE_VALUE_ARGS OUTPUT_DIRECTORY)
     set(ANTLR_MULTI_VALUE_ARGS COMPILE_FLAGS DEPENDS)
 
+    find_package(Java REQUIRED COMPONENTS Runtime)
+
+    if(NOT ANTLR_EXECUTABLE)
+      message(FATAL_ERROR "ANTLR_EXECUTABLE not set, antlr files cannot be generated!")
+    endif()
+
     cmake_parse_arguments(ANTLR_TARGET
                           "${ANTLR_OPTIONS}"
                           "${ANTLR_ONE_VALUE_ARGS}"
@@ -63,7 +69,7 @@ macro(ANTLR_TARGET Name InputFile)
 
     add_custom_command(
         OUTPUT ${ANTLR_${Name}_OUTPUTS} ${ANTLR_${Name}_CXX_OUTPUTS}
-        COMMAND java -jar c:/dev/antlr-4.11.1-complete.jar
+        COMMAND ${Java_JAVA_EXECUTABLE} -jar ${ANTLR_EXECUTABLE}
                 ${InputFile}
                 -o ${ANTLR_${Name}_OUTPUT_DIR}
                 -no-listener
