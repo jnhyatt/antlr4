@@ -1,4 +1,4 @@
-macro(ANTLR_TARGET Name InputFile)
+macro(ANTLR_TARGET Name InputPath)
     set(ANTLR_OPTIONS LEXER PARSER LISTENER VISITOR)
     set(ANTLR_ONE_VALUE_ARGS OUTPUT_DIRECTORY)
     set(ANTLR_MULTI_VALUE_ARGS COMPILE_FLAGS DEPENDS)
@@ -21,9 +21,10 @@ macro(ANTLR_TARGET Name InputFile)
     # - ${ANTLR_INPUT} is the grammar name: Grammar
     # - ${ANTLR_${Name}_OUTPUT_DIR} is where the generated sources will go; this should usually be in your CMake build directory
 
-    set(ANTLR_${Name}_INPUT ${InputFile})
+    set(ANTLR_${Name}_INPUT ${InputPath})
 
-    get_filename_component(ANTLR_INPUT ${InputFile} NAME_WE)
+    get_filename_component(ANTLR_INPUT ${InputPath} NAME_WE)
+    get_filename_component(GRAMMAR_FILE ${InputPath} ABSOLUTE BASE_DIR ${CMAKE_CURRENT_LIST_DIR})
 
     if(ANTLR_TARGET_OUTPUT_DIRECTORY)
         set(ANTLR_${Name}_OUTPUT_DIR ${ANTLR_TARGET_OUTPUT_DIRECTORY})
@@ -70,12 +71,12 @@ macro(ANTLR_TARGET Name InputFile)
     add_custom_command(
         OUTPUT ${ANTLR_${Name}_OUTPUTS} ${ANTLR_${Name}_CXX_OUTPUTS}
         COMMAND ${Java_JAVA_EXECUTABLE} -jar ${ANTLR_EXECUTABLE}
-                ${InputFile}
+                ${GRAMMAR_FILE}
                 -o ${ANTLR_${Name}_OUTPUT_DIR}
                 -no-listener
                 -Dlanguage=Cpp
                 ${ANTLR_TARGET_COMPILE_FLAGS}
-        DEPENDS ${InputFile}
+        DEPENDS ${GRAMMAR_FILE}
         WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
     )
 
