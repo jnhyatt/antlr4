@@ -6,11 +6,9 @@
 # Lines starting with '*' allow multiple changes in single file
 
 docker/Dockerfile
-runtime/Go/antlr/recognizer.go
 runtime/Go/antlr/v4/recognizer.go
 runtime/Go/antlr/v4/antlrdoc.go
-runtime/Go/antlr/antlrdoc.go
-runtime/Python3/setup.py
+runtime/Python3/pyproject.toml
 runtime/Python3/src/antlr4/Recognizer.py
 runtime/Python2/setup.py
 runtime/Python2/src/antlr4/Recognizer.py
@@ -33,6 +31,7 @@ runtime/CSharp/src/Antlr4.csproj
 runtime/JavaScript/package-lock.json
 runtime/JavaScript/package.json
 runtime/JavaScript/src/antlr4/Recognizer.js
+runtime/JavaScript/spec/rewriter/Makefile
 runtime-testsuite/resources/org/antlr/v4/test/runtime/helpers/package_ts.json
 
 # Allow doc files to have multiple values updated
